@@ -11,10 +11,15 @@ using System.Collections;
 
 public class IdleChanger : MonoBehaviour
 {
+	//[SerializeField]
+	private static readonly int FORCE = 450;
+	private static readonly int SPEED_X = 300;
 
 	private Animator anim;						// Animatorへの参照
 	private AnimatorStateInfo currentState;		// 現在のステート状態を保存する参照
 	private AnimatorStateInfo previousState;	// ひとつ前のステート状態を保存する参照
+
+	private Rigidbody rigidbody;
 
 
 	// Use this for initialization
@@ -24,11 +29,15 @@ public class IdleChanger : MonoBehaviour
 		anim = GetComponent<Animator> ();
 		currentState = anim.GetCurrentAnimatorStateInfo (0);
 		previousState = currentState;
-
+		rigidbody = GetComponent<Rigidbody> ();
 	}
 
+	void FixedUpdate()
+	{
+		Move();
+	}
 
-
+	
 	void OnGUI()
 	{	
 		GUI.Box(new Rect(Screen.width - 200 , 45 ,120 , 350), "");
@@ -54,5 +63,35 @@ public class IdleChanger : MonoBehaviour
 			anim.SetBool ("Run", false);
 
 ;
+	}
+
+	private void Move() {
+		//if (Input.GetKeyDown(KeyCode.UpArrow))
+		if (Input.GetKeyDown(KeyCode.W))
+		{
+			float speedd = 7F;
+			//rigidbody2D.AddForce(Vector2.up * FORCE);
+			rigidbody.velocity = Vector3.up * speedd;
+			anim.SetBool ("Hikick", true);
+		}
+
+		// Move hirizontal
+		if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+		{
+			//rigidbody2D.AddForce(Vector2.up * FORCE);
+			anim.SetBool ("Run", true);
+		} else {
+			anim.SetBool ("Run", false);
+		}
+		//rigidbody2D.AddForce(transform.right * dx * SPEED_X);
+		//rigidbody.AddForce(Vector2.right * dx * SPEED_X);
+		//float dy = Input.GetAxis("Vertical");
+		//rigidbody2D.velocity = new Vector2(dx, dy);
+		//float speed = 0.15F;
+		//rigidbody.AddForce(Vector3.right * dx * speed);
+		float speed = 8;
+		float dx = Input.GetAxis("Horizontal");
+		rigidbody.velocity = new Vector3(dx * speed, rigidbody.velocity.y, 0);
+
 	}
 }
