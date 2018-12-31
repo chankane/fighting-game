@@ -19,7 +19,7 @@ public class IdleChanger : MonoBehaviour
 	private AnimatorStateInfo currentState;		// 現在のステート状態を保存する参照
 	private AnimatorStateInfo previousState;	// ひとつ前のステート状態を保存する参照
 
-	private Rigidbody rigidbody;
+	private Rigidbody2D rigidbody2D;
 
 
 	// Use this for initialization
@@ -29,7 +29,7 @@ public class IdleChanger : MonoBehaviour
 		anim = GetComponent<Animator> ();
 		currentState = anim.GetCurrentAnimatorStateInfo (0);
 		previousState = currentState;
-		rigidbody = GetComponent<Rigidbody> ();
+		rigidbody2D = GetComponent<Rigidbody2D> ();
 	}
 
 	void FixedUpdate()
@@ -71,7 +71,7 @@ public class IdleChanger : MonoBehaviour
 		{
 			float speedd = 7F;
 			//rigidbody2D.AddForce(Vector2.up * FORCE);
-			rigidbody.velocity = Vector3.up * speedd;
+			rigidbody2D.velocity = Vector2.up * speedd;
 			anim.SetBool ("Hikick", true);
 		}
 
@@ -91,7 +91,7 @@ public class IdleChanger : MonoBehaviour
 		//rigidbody.AddForce(Vector3.right * dx * speed);
 		float speed = 8;
 		float dx = Input.GetAxis("Horizontal");
-		rigidbody.velocity = new Vector3(dx * speed, rigidbody.velocity.y, 0);
+		rigidbody2D.velocity = new Vector2(dx * speed, rigidbody2D.velocity.y);
 
 	}
 }
