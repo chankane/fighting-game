@@ -21,6 +21,8 @@ public class IdleChanger : MonoBehaviour
 
 	private Rigidbody2D rigidbody2D;
 
+	private bool flag = false;
+
 
 	// Use this for initialization
 	void Start ()
@@ -35,6 +37,19 @@ public class IdleChanger : MonoBehaviour
 	void FixedUpdate()
 	{
 		Move();
+	}
+
+
+	void OnAnimatorMove() {
+		if (!flag) {
+		//transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+		transform.position = new Vector3(anim.rootPosition.x, anim.rootPosition.y, 0);
+		}
+	}
+
+	void OnCollisionEnter(Collider col) {
+		Debug.Log("hi");
+		flag = true;
 	}
 
 	
